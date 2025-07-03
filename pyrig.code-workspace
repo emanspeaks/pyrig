@@ -1,0 +1,52 @@
+{
+  "folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../pyapp"
+		}
+	],
+  "settings": {
+    "yaml.customTags": ["!reference sequence"],
+		"python.testing.unittestArgs": [
+			"-v",  // verbose
+			"-s",  // discovery start directory
+			"./tests",
+			"-p",  // pattern to match for test files
+			"*test.py"
+		],
+		"python.testing.pytestEnabled": false,
+		"python.testing.unittestEnabled": true,
+		"svg.preview.background": "transparent" //,
+		// "python.testing.cwd": "${workspaceFolder}/tests"
+  },
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Module",
+				"type": "debugpy",
+				"request": "launch",
+				"module": "pyrig",
+				"console": "integratedTerminal",
+				"justMyCode": false,
+				"args": [
+					"${workspaceFolder:pyrig}/.pyrig_config.jsonc"
+				],
+				"cwd": "${workspaceFolder:pyrig}"
+				// "guiEventLoop": "qt"
+				// "stopOnEntry": true
+			},
+			{
+				"name": "Python: Current File",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal",
+				"justMyCode": false
+			}
+		],
+		"compounds": []
+	}
+}

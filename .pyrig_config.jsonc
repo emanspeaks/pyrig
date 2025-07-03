@@ -1,0 +1,10 @@
+{
+  "avcad_db_dir": "C:/scratch/owncloud/syme/avcad",
+  "avcad_layers_file": "C:/Users/Public/SharedLibrary/Settings/Layers.txt",
+  "cli_log_level": "info",
+  "file_log_level": "debug",
+  // "file_log_level": "debuglow",
+  "log_timestamp_name": false,
+  "append_log": true,
+  "tmp_dir": "tmp"
+}
