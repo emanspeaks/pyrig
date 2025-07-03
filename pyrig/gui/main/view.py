@@ -6,10 +6,10 @@ from PySide2.QtWidgets import (
 from PySide2.QtCore import Qt
 
 from pyapp.qt_gui.abc import STATUS_LABEL, QtWindowWrapper
+from pyapp.qt_gui.widgets.windowbase import WindowBaseGraphView
 
 from ...app import PyRigApp
 from ...logging import log_func_call
-from ..widgets.base import WindowBaseGraphView
 if TYPE_CHECKING:
     from .ctrl import MainWindow
 
@@ -19,23 +19,16 @@ class MainWindowView(QtWindowWrapper):
     def __init__(self, controller: 'MainWindow'):
         super().__init__("PyRig", controller)
         self.basewidget: WindowBaseGraphView
+        self.controller: MainWindow
         self.get_window_qtroot().resize(*PyRigApp.get_default_win_size())
 
         self.create_toolbar()
         self.create_statusbar()
 
-        from PySide2.QtCore import Qt
-        from PySide2.QtGui import QPen
-        from ...logging import get_logger
-        scene = self.basewidget.scene
-        log = get_logger()
-        log.debug(f'scene rect: {scene.sceneRect()}')
-        scene.addRect(scene.sceneRect(), QPen(Qt.red, 5))
-
     @log_func_call
     def create_toolbar(self):
         qtwin = self.qtroot
-        ctrl: MainWindow = self.controller
+        ctrl = self.controller
 
         toolbar = QToolBar("Main Toolbar", qtwin)
         # toolbar.setMovable(False)
@@ -71,7 +64,7 @@ class MainWindowView(QtWindowWrapper):
     @log_func_call
     def create_statusbar(self):
         qtwin = self.qtroot
-        ctrl: MainWindow = self.controller
+        ctrl = self.controller
 
         statusbar = QStatusBar(qtwin)
         qtwin.setStatusBar(statusbar)
