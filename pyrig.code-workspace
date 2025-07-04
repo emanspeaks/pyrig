@@ -18,8 +18,15 @@
 		],
 		"python.testing.pytestEnabled": false,
 		"python.testing.unittestEnabled": true,
-		"svg.preview.background": "transparent" //,
-		// "python.testing.cwd": "${workspaceFolder}/tests"
+		"svg.preview.background": "transparent",
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/.conda": true,
+		}
   },
 	"launch": {
 		"version": "0.2.0",
@@ -34,7 +41,7 @@
 				"args": [
 					"${workspaceFolder:pyrig}/.pyrig_config.jsonc"
 				],
-				"cwd": "${workspaceFolder:pyrig}"
+				"cwd": "${workspaceFolder:pyrig}"//,
 				// "guiEventLoop": "qt"
 				// "stopOnEntry": true
 			},

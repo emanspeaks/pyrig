@@ -46,6 +46,7 @@ qtwin
 qtwindow
 RBAR
 repr
+resetbtn
 Segoe
 shcore
 shibokensupport
@@ -56,7 +57,9 @@ str
 tkbasewidget
 tkroot
 tkwindow
+tmpwidget
 tnew
+toolbtn
 tqdm
 UNC
 UNCs

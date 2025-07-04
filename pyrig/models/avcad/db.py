@@ -2,7 +2,8 @@ from pathlib import Path
 from sqlite3 import connect
 
 from pyapp.utils.sqlite import get_tables, execute_select
-from pyapp.utils.tqdm import FileSetTqdm, FileSet
+from pyapp.utils.tqdm import FileSetTqdm
+from pyapp.utils.filemeta import FileSet
 
 from ...logging import log_func_call, DEBUG, get_logger, INFO
 from ...app import PyRigApp
