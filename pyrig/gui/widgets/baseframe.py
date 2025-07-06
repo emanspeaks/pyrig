@@ -15,7 +15,7 @@ from pyapp.qt_gui.utils import (
 )
 
 from ...app import PyRigApp
-from ...logging import log_func_call, get_logger
+from ...logging import log_func_call, get_logger, DEBUGLOW2
 
 
 class BaseView(WindowBaseFrame):
@@ -199,11 +199,11 @@ class BaseView(WindowBaseFrame):
         self.viewwidget.view.ensureVisible(QRectF(0, 0, 0, 0))
         self.resetButton.setEnabled(False)
 
-    @log_func_call
+    @log_func_call(DEBUGLOW2, trace_only=True)
     def setResetButtonEnabled(self, value=None):
         self.resetButton.setEnabled(True)
 
-    @log_func_call
+    @log_func_call(DEBUGLOW2, trace_only=True)
     def setupMatrix(self, value=None):
         scale = 2 ** ((self.zoomSlider.value() - 250) / 50)
         matrix = QTransform()

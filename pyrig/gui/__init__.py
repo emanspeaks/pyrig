@@ -3,7 +3,7 @@ from pathlib import Path
 from PySide2.QtGui import QIcon
 
 from pyapp.qt_gui.abc import QtApplicationBase, QtWindowWrapper
-from pyapp.config.defaults import APP_ASSETS_DIR_KEY
+from pyapp.config.keys import APP_ASSETS_DIR_KEY
 
 from ..logging import (
     log_func_call as _log_func_call,

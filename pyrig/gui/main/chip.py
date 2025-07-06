@@ -10,7 +10,7 @@ ITEMFLAGS = QGraphicsItem.GraphicsItemFlag
 
 
 class Chip(QGraphicsItem):
-    @log_func_call(DEBUGLOW2)
+    @log_func_call(DEBUGLOW2, trace_only=True)
     def __init__(self, color: QColor, x: int, y: int):
         super().__init__()
         self.x = x
@@ -21,17 +21,17 @@ class Chip(QGraphicsItem):
         self.setAcceptHoverEvents(True)
         self.stuff: list[QPoint] = list()
 
-    @log_func_call(DEBUGLOW2)
+    @log_func_call(DEBUGLOW2, trace_only=True)
     def boundingRect(self):
         return QRectF(0, 0, 110, 70)
 
-    @log_func_call(DEBUGLOW2)
+    @log_func_call(DEBUGLOW2, trace_only=True)
     def shape(self):
         path = QPainterPath()
         path.addRect(14, 14, 82, 42)
         return path
 
-    @log_func_call(DEBUGLOW2)
+    @log_func_call(DEBUGLOW2, trace_only=True)
     def paint(self, painter: QPainter, option: QStyleOptionGraphicsItem,
               widget: QWidget):
         stuff = self.stuff
