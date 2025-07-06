@@ -15,6 +15,7 @@ from .view import MainWindowView
 
 
 class MainWindow(QtWindowController):
+    @log_func_call
     def __init__(self):
         super().__init__()
         self.window: MainWindowView = MainWindowView(self)
