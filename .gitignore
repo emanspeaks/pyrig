@@ -13,5 +13,5 @@ docs/
 .coverage
 .conda
 logs/
-icons_rc.py
+qt_resources.py
 tmp/
