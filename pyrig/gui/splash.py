@@ -2,7 +2,7 @@ from PySide2.QtGui import QPixmap, QPainter
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtSvg import QSvgRenderer
 
-from pyapp.qt_gui.abc import QtSplashScreen
+from pyapp.gui.abc import QtSplashScreen
 
 from ..app import PyRigApp
 

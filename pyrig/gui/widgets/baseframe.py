@@ -7,10 +7,10 @@ from PySide2.QtOpenGL import QGLFormat, QGLWidget, QGL
 from PySide2.QtCore import QSize, Qt, QRectF
 from PySide2.QtPrintSupport import QPrintDialog, QPrinter
 
-from pyapp.qt_gui.widgets.windowbase import WindowBaseFrame
-from pyapp.qt_gui.widgets.graphview import GraphViewWidget
-from pyapp.qt_gui.abc import QtWindowWrapper
-from pyapp.qt_gui.utils import (
+from pyapp.gui.widgets.windowbase import WindowBaseFrame
+from pyapp.gui.widgets.graphview import GraphViewWidget
+from pyapp.gui.abc import QtWindowWrapper
+from pyapp.gui.utils import (
     create_icon_toolbtn, create_text_toolbtn, create_slider
 )
 

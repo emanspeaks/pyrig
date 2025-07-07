@@ -3,8 +3,8 @@ from pathlib import Path
 from PySide2.QtWidgets import QFileDialog
 from PySide2.QtGui import QMouseEvent
 
-from pyapp.qt_gui.abc import QtWindowController
-from pyapp.qt_gui.dialogs.config import ConfigTreeDialog
+from pyapp.gui.abc import QtWindowController
+from pyapp.gui.dialogs.config import ConfigTreeDialog
 
 from ...logging import log_func_call
 from ...models.avcad.db import (

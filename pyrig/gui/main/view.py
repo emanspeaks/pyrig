@@ -3,14 +3,14 @@ from typing import TYPE_CHECKING
 from PySide2.QtWidgets import QToolBar, QStatusBar, QLabel
 from PySide2.QtCore import Qt
 
-from pyapp.qt_gui.abc import STATUS_LABEL, QtWindowWrapper
-from pyapp.qt_gui.loadstatus import (
+from pyapp.gui.abc import STATUS_LABEL, QtWindowWrapper
+from pyapp.gui.loadstatus import (
     load_status_step, loading_step_context, register_load_step,
     register_as_load_step,
 )
-from pyapp.qt_gui.utils import create_action, create_toolbar_expanding_spacer
-from pyapp.qt_gui.icons.thirdparty.codicons import Codicons
-from pyapp.qt_gui.icons.thirdparty.codicons import names as codicon_names
+from pyapp.gui.utils import create_action, create_toolbar_expanding_spacer
+from pyapp.gui.icons.thirdparty.codicons import Codicons
+from pyapp.gui.icons.thirdparty.codicons import names as codicon_names
 
 from ...app import PyRigApp
 from ...logging import log_func_call
