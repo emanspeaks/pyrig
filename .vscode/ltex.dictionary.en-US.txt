@@ -54,6 +54,7 @@ shibokensupport
 SHLVL
 shsplit
 STARTBRAK
+stepcls
 str
 tkbasewidget
 tkroot

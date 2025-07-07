@@ -3,10 +3,11 @@ from pyapp.qt_gui.abc import QtApplicationBase, QtWindowWrapper
 
 from ..logging import (
     log_func_call as _log_func_call,
-    get_logger as _get_logger, WARN
+    get_logger as _get_logger
 )
 from ..app import PyRigApp as _PyRigApp
 from .splash import SplashScreen
+from .main import MainWindow
 
 
 class PyRigGui(QtApplicationBase):
@@ -21,18 +22,17 @@ class PyRigGui(QtApplicationBase):
     def __init__(self, app_args: list[str], *firstwin_args,
                  **firstwin_kwargs):
         super().__init__(app_args, *firstwin_args, **firstwin_kwargs)
+        self.splash: SplashScreen
         self.icon: QIcon = None
-        self.splash: SplashScreen = None
 
-    @_log_func_call(WARN)
+    @_log_func_call
     def create_first_window(self, *args, **kwargs) -> QtWindowWrapper:
         "sets self.window to an instance of the concrete main window object"
-        from .main import MainWindow
         mw = MainWindow()
         self.windows.append(mw)
         mwview = mw.get_window()
-        mwview.get_window_qtroot().showNormal()  # Ensure start not minimized
         mwview.show()
+        mwview.bring_to_front()
 
     @_log_func_call
     def init_gui(self, app_args: list[str], *firstwin_args, **firstwin_kwargs):
