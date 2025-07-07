@@ -1,15 +1,12 @@
-from pathlib import Path
-
 from PySide2.QtGui import QIcon
-
 from pyapp.qt_gui.abc import QtApplicationBase, QtWindowWrapper
-from pyapp.config.keys import APP_ASSETS_DIR_KEY
 
 from ..logging import (
     log_func_call as _log_func_call,
     get_logger as _get_logger, WARN
 )
 from ..app import PyRigApp as _PyRigApp
+from .splash import SplashScreen
 
 
 class PyRigGui(QtApplicationBase):
@@ -25,6 +22,7 @@ class PyRigGui(QtApplicationBase):
                  **firstwin_kwargs):
         super().__init__(app_args, *firstwin_args, **firstwin_kwargs)
         self.icon: QIcon = None
+        self.splash: SplashScreen = None
 
     @_log_func_call(WARN)
     def create_first_window(self, *args, **kwargs) -> QtWindowWrapper:
@@ -40,13 +38,18 @@ class PyRigGui(QtApplicationBase):
     def init_gui(self, app_args: list[str], *firstwin_args, **firstwin_kwargs):
         super().init_gui(app_args, *firstwin_args, **firstwin_kwargs)
         self.load_icon()
+        super().close_splash(self.windows[0].get_window_qtroot())
 
     @_log_func_call
     def load_icon(self):
-        icon_path = Path(_PyRigApp.get(APP_ASSETS_DIR_KEY, '.'))/'logo.svg'
+        icon_path = _PyRigApp.get_assets_dir()/'logo.svg'
         if icon_path.exists():
             icon = QIcon(icon_path.as_posix())
             self.icon = icon
             self.qtroot.setWindowIcon(icon)
         else:
             _get_logger().error(f'Icon {icon_path} not found')
+
+    @_log_func_call
+    def create_splash(self):
+        return SplashScreen()
