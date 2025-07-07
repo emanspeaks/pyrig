@@ -8,6 +8,6 @@
   "log_timestamp_name": false,
   // "append_log": true,
   "tmp_dir": "tmp",
-  // "log_trace_enabled": true
+  // "log_trace_enabled": true,
   "show_traceback_locals": true
 }

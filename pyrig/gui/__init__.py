@@ -7,7 +7,7 @@ from pyapp.config.keys import APP_ASSETS_DIR_KEY
 
 from ..logging import (
     log_func_call as _log_func_call,
-    get_logger as _get_logger,
+    get_logger as _get_logger, WARN
 )
 from ..app import PyRigApp as _PyRigApp
 
@@ -26,13 +26,15 @@ class PyRigGui(QtApplicationBase):
         super().__init__(app_args, *firstwin_args, **firstwin_kwargs)
         self.icon: QIcon = None
 
-    @_log_func_call
+    @_log_func_call(WARN)
     def create_first_window(self, *args, **kwargs) -> QtWindowWrapper:
         "sets self.window to an instance of the concrete main window object"
         from .main import MainWindow
         mw = MainWindow()
         self.windows.append(mw)
-        mw.get_window().show()
+        mwview = mw.get_window()
+        mwview.get_window_qtroot().showNormal()  # Ensure start not minimized
+        mwview.show()
 
     @_log_func_call
     def init_gui(self, app_args: list[str], *firstwin_args, **firstwin_kwargs):
