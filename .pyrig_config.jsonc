@@ -9,5 +9,6 @@
   // "append_log": true,
   "tmp_dir": "tmp",
   // "log_trace_enabled": true,
-  "show_traceback_locals": true
+  "show_traceback_locals": true//,
+  // "local.theme": "light"
 }

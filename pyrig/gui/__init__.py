@@ -11,11 +11,6 @@ from .main import MainWindow
 
 
 class PyRigGui(QtApplicationBase):
-    """
-    PyRig GUI Application class.
-    This class initializes the GUI application and manages the main window.
-    """
-
     INIT_GUI_IN_CONSTRUCTOR: bool = True
 
     @_log_func_call
@@ -27,7 +22,6 @@ class PyRigGui(QtApplicationBase):
 
     @_log_func_call
     def create_first_window(self, *args, **kwargs) -> QtWindowWrapper:
-        "sets self.window to an instance of the concrete main window object"
         mw = MainWindow()
         self.windows.append(mw)
         mwview = mw.get_window()

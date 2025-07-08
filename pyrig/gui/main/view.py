@@ -9,8 +9,6 @@ from pyapp.gui.loadstatus import (
     register_as_load_step,
 )
 from pyapp.gui.utils import create_action, create_toolbar_expanding_spacer
-from pyapp.gui.icons.thirdparty.codicons import Codicons
-from pyapp.gui.icons.thirdparty.codicons import names as codicon_names
 
 from ...app import PyRigApp
 from ...logging import log_func_call
@@ -18,6 +16,7 @@ from ...constants import (
     CHIP_I_MAX, CHIP_I_MIN, CHIP_I_STEP, CHIP_J_MAX, CHIP_J_MIN, CHIP_J_STEP,
 )
 from ..widgets.baseframe import BaseView
+from ..icons import NewIcon, OpenIcon, SaveIcon, SaveAsIcon, ConfigIcon
 if TYPE_CHECKING:
     from .ctrl import MainWindow
 
@@ -33,7 +32,7 @@ class MainWindowView(QtWindowWrapper):
 
     @log_func_call
     def __init__(self, controller: 'MainWindow'):
-        super().__init__("PyRig", controller)
+        super().__init__(PyRigApp.APP_NAME, controller)
         self.basewidget: BaseView
         self.controller: MainWindow
         self.get_window_qtroot().resize(*PyRigApp.get_default_win_size())
@@ -52,21 +51,16 @@ class MainWindowView(QtWindowWrapper):
         qtwin.addToolBar(Qt.TopToolBarArea, toolbar)
         self.toolbar = toolbar
 
-        toolbar.addAction(create_action(qtwin, "New",
-                                        Codicons.icon(codicon_names.new_file),
+        toolbar.addAction(create_action(qtwin, "New", NewIcon.icon(),
                                         ctrl.click_new))
-        toolbar.addAction(create_action(qtwin, "Open",
-                                        Codicons.icon(codicon_names.folder_opened),  # noqa: E501
+        toolbar.addAction(create_action(qtwin, "Open", OpenIcon.icon(),
                                         ctrl.click_open))
-        toolbar.addAction(create_action(qtwin, "Save",
-                                        Codicons.icon(codicon_names.save),
+        toolbar.addAction(create_action(qtwin, "Save", SaveIcon.icon(),
                                         ctrl.click_save))
-        toolbar.addAction(create_action(qtwin, "Save As",
-                                        Codicons.icon(codicon_names.save_as),
+        toolbar.addAction(create_action(qtwin, "Save As", SaveAsIcon.icon(),
                                         ctrl.click_saveas))
         toolbar.addWidget(create_toolbar_expanding_spacer())
-        toolbar.addAction(create_action(qtwin, "Config",
-                                        Codicons.icon(codicon_names.json),
+        toolbar.addAction(create_action(qtwin, "Config", ConfigIcon.icon(),
                                         ctrl.click_config))
 
     @load_status_step("Creating status bar and loading AVCAD databases")
