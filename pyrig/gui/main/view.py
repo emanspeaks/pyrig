@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 
 class MainWindowView(QtWindowWrapper):
     @staticmethod
+    @log_func_call
     def register_chip_load_steps():
         n = 0
         for i in range(CHIP_I_MIN, CHIP_I_MAX, CHIP_I_STEP):

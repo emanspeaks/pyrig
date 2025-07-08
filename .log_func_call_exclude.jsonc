@@ -1,0 +1,48 @@
+{
+  "exclude_files": [
+    "pyrig/gui/splash.py",
+    "pyrig/logging.py"//,
+  ],
+  "exclude_classes": [
+    // "MillisecondFormatter",
+    // "LevelFilter",
+    // "LogMultiFormatter"//,
+  ],
+  "exclude_methods": {
+    // "FileSetTqdm": [
+    //   "__iter__"
+    // ],
+    // "MainWindowView": [
+    //   "register_chip_load_steps"
+    // ],
+    // "IconLayer": [
+    //   "paint",
+    //   "get_draw_size",
+    //   "draw_text",
+    //   "get_rawfont",
+    //   "prep_rawfont_paint",
+    //   "draw_path",
+    //   "draw_glyphrun",
+    //   "draw_image"
+    // ],
+    // "QtSplashScreen": [
+    //   "mousePressEvent"//,
+    // ]//,
+  },
+  "exclude_dirs": [
+    "__pycache__",
+    "_testing",
+    ".git",
+    ".venv",
+    "venv",
+    "env",
+    ".conda",
+    "tests"//,
+  ],
+  "exclude_functions": {
+    // "pyapp/gui/utils.py": [
+    //   "painter_context"
+    // ]//,
+  },
+  "base_dir": "C:/scratch/git/pyrig"
+}
