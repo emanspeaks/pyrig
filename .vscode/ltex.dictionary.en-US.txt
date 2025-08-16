@@ -1,3 +1,4 @@
+acctng
 AppConfig
 args
 AVCAD
@@ -31,8 +32,12 @@ lastc
 levelno
 logcfg
 mcol
+mdup
+mneg
 monkeypatch
+mval
 mwview
+ndigits
 newppp
 ppath
 PYAPP

@@ -32,7 +32,8 @@
     },
     "python.useEnvironmentsExtension": true,
     "qtForPython.qmlls.enabled": false,
-    "qtForPython.rcc.liveExecution.enabled": false
+    "qtForPython.rcc.liveExecution.enabled": false,
+    "python.terminal.useEnvFile": true
   },
   "launch": {
     "version": "0.2.0",
