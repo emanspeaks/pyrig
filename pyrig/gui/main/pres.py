@@ -3,7 +3,7 @@ from pathlib import Path
 from PySide2.QtWidgets import QFileDialog
 from PySide2.QtGui import QMouseEvent
 
-from pyapp.gui.abc import QtWindowController
+from pyapp.gui.window import GuiWindow
 from pyapp.gui.dialogs.config import ConfigTreeDialog
 
 from ...logging import log_func_call
@@ -14,11 +14,16 @@ from ...models.avcad.db import (
 from .view import MainWindowView
 
 
-class MainWindow(QtWindowController):
+class MainWindow(GuiWindow[MainWindowView]):
     @log_func_call
     def __init__(self):
-        super().__init__()
-        self.window: MainWindowView = MainWindowView(self)
+        from ...app import PyRigApp
+        super().__init__(PyRigApp.APP_NAME)
+
+    @log_func_call
+    def create_gui_view(self, basetitle: str, *args,
+                        **kwargs) -> MainWindowView:
+        return MainWindowView(basetitle, self, *args, **kwargs)
 
     @log_func_call
     def click_new(self):
@@ -43,7 +48,7 @@ class MainWindow(QtWindowController):
     @log_func_call
     def click_avcad_dbdir(self, event: QMouseEvent):
         dbdir: Path = get_avcad_db_dir()
-        qtwin = self.get_window_qtroot()
+        qtwin = self.gui_view.qtobj
         new_dir = QFileDialog.getExistingDirectory(
             qtwin, "Select AVCAD Database Directory", str(dbdir)
         )
@@ -54,7 +59,7 @@ class MainWindow(QtWindowController):
     @log_func_call
     def update_avcad_dbdir_label(self, qtwin: MainWindowView = None):
         if qtwin is None:
-            qtwin = self.window
+            qtwin = self.gui_view
 
         dbdir: Path = get_avcad_db_dir()
         qtwin.status_dbdir.setText(f"AVCAD Database: {dbdir.as_posix()}")

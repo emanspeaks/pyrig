@@ -7,9 +7,9 @@ from PySide2.QtOpenGL import QGLFormat, QGLWidget, QGL
 from PySide2.QtCore import QSize, Qt, QRectF
 from PySide2.QtPrintSupport import QPrintDialog, QPrinter
 
-from pyapp.gui.widgets.windowbase import WindowBaseFrame
+from pyapp.gui.window import GuiWindow
+from pyapp.gui.widgets.viewbase import GuiViewBaseFrame
 from pyapp.gui.widgets.graphview import GraphViewWidget
-from pyapp.gui.abc import QtWindowWrapper
 from pyapp.gui.utils import (
     create_icon_toolbtn, create_text_toolbtn, create_slider
 )
@@ -18,7 +18,7 @@ from ...app import PyRigApp
 from ...logging import log_func_call, get_logger, DEBUGLOW2
 
 
-class BaseView(WindowBaseFrame):
+class BaseView(GuiViewBaseFrame):
     BASE_ICON_PATHS = {
         "zoom_in": "zoomin.png",
         "zoom_out": "zoomout.png",
@@ -56,9 +56,11 @@ class BaseView(WindowBaseFrame):
         rotateLeftIcon = create_icon_toolbtn(self, self.icon_size,
                                              self.get_icon_path("rotate_left"),
                                              self.rotateLeft)
-        rotateRightIcon = create_icon_toolbtn(self, self.icon_size,
-                                              self.get_icon_path("rotate_right"),  # noqa: E501
-                                              self.rotateRight)
+        rotateRightIcon = create_icon_toolbtn(
+            self, self.icon_size,
+            self.get_icon_path("rotate_right"),
+            self.rotateRight,
+        )
 
         rotateSlider = create_slider(self, -360, 360, 0, self.setupMatrix)
         rotateSlider.setOrientation(Qt.Horizontal)
@@ -112,7 +114,7 @@ class BaseView(WindowBaseFrame):
                                              toggleable=True)
         self.dragModeButton = dragModeButton
 
-        pointerModeGroup = QButtonGroup(self.qtroot)
+        pointerModeGroup = QButtonGroup(self.qtobj)
         pointerModeGroup.setExclusive(True)
         pointerModeGroup.addButton(selectModeButton)
         pointerModeGroup.addButton(dragModeButton)
@@ -148,11 +150,11 @@ class BaseView(WindowBaseFrame):
         return layout
 
     @log_func_call
-    def __init__(self, parent: QtWindowWrapper, name: str = "Chip View"):
+    def __init__(self, parent: GuiWindow, name: str = "Chip View"):
         super().__init__(parent)
         self.name = name
 
-        frame = self.qtroot
+        frame = self.qtobj
         frame.setFrameStyle(QFrame.Sunken | QFrame.StyledPanel)
 
         icon_width = frame.style().pixelMetric(QStyle.PM_ToolBarIconSize)
@@ -235,7 +237,7 @@ class BaseView(WindowBaseFrame):
     @log_func_call
     def print(self):
         printer = QPrinter(QPrinter.HighResolution)
-        widget = self.qtroot
+        widget = self.qtobj
         dialog = QPrintDialog(printer, widget)
         if dialog.exec_() == QDialog.Accepted:
             view = self.viewwidget.view

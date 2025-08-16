@@ -3,12 +3,13 @@ from typing import TYPE_CHECKING
 from PySide2.QtWidgets import QToolBar, QStatusBar, QLabel
 from PySide2.QtCore import Qt
 
-from pyapp.gui.abc import STATUS_LABEL, QtWindowWrapper
+from pyapp.gui.window import GuiWindowView
 from pyapp.gui.loadstatus import (
     load_status_step, loading_step_context, register_load_step,
     register_as_load_step,
 )
 from pyapp.gui.utils import create_action, create_toolbar_expanding_spacer
+from pyapp.gui.styles import STATUS_LABEL
 
 from ...app import PyRigApp
 from ...logging import log_func_call
@@ -18,10 +19,10 @@ from ...constants import (
 from ..widgets.baseframe import BaseView
 from ..icons import NewIcon, OpenIcon, SaveIcon, SaveAsIcon, ConfigIcon
 if TYPE_CHECKING:
-    from .ctrl import MainWindow
+    from .pres import MainWindow
 
 
-class MainWindowView(QtWindowWrapper):
+class MainWindowView(GuiWindowView['MainWindow', BaseView]):
     @staticmethod
     @log_func_call
     def register_chip_load_steps():
@@ -32,11 +33,9 @@ class MainWindowView(QtWindowWrapper):
                 register_load_step(f"Creating chip {n}")
 
     @log_func_call
-    def __init__(self, controller: 'MainWindow'):
-        super().__init__(PyRigApp.APP_NAME, controller)
-        self.basewidget: BaseView
-        self.controller: MainWindow
-        self.get_window_qtroot().resize(*PyRigApp.get_default_win_size())
+    def __init__(self, basetitle: str, presenter: 'MainWindow' = None):
+        super().__init__(basetitle, presenter)
+        self.qtobj.resize(*PyRigApp.get_default_win_size())
 
         self.create_toolbar()
         self.create_statusbar()
@@ -45,8 +44,8 @@ class MainWindowView(QtWindowWrapper):
     @load_status_step("Creating toolbar")
     @log_func_call
     def create_toolbar(self):
-        qtwin = self.qtroot
-        ctrl = self.controller
+        qtwin = self.qtobj
+        ctrl = self.gui_pres
 
         toolbar = QToolBar("Main Toolbar", qtwin)
         qtwin.addToolBar(Qt.TopToolBarArea, toolbar)
@@ -67,8 +66,8 @@ class MainWindowView(QtWindowWrapper):
     @load_status_step("Creating status bar and loading AVCAD databases")
     @log_func_call
     def create_statusbar(self):
-        qtwin = self.qtroot
-        ctrl = self.controller
+        qtwin = self.qtobj
+        ctrl = self.gui_pres
 
         statusbar = QStatusBar(qtwin)
         qtwin.setStatusBar(statusbar)

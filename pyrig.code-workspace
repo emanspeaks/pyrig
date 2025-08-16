@@ -1,115 +1,121 @@
 {
   "folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "../pyapp"
-		}
-	],
+    {
+      "path": "."
+    },
+    {
+      "path": "../pyapp"
+    },
+    {
+      "path": "../iconbrowser"
+    }
+  ],
   "settings": {
     "yaml.customTags": ["!reference sequence"],
-		"python.testing.unittestArgs": [
-			"-v",  // verbose
-			"-s",  // discovery start directory
-			"./tests",
-			"-p",  // pattern to match for test files
-			"*test.py"
-		],
-		"python.testing.pytestEnabled": false,
-		"python.testing.unittestEnabled": true,
-		"svg.preview.background": "transparent",
-		"files.exclude": {
-			"**/.git": true,
-			"**/.svn": true,
-			"**/.hg": true,
-			"**/.DS_Store": true,
-			"**/Thumbs.db": true,
-			"**/.conda": true,
-		}
+    "python.testing.unittestArgs": [
+      "-v",  // verbose
+      "-s",  // discovery start directory
+      "./tests",
+      "-p",  // pattern to match for test files
+      "*test.py"
+    ],
+    "python.testing.pytestEnabled": false,
+    "python.testing.unittestEnabled": true,
+    "svg.preview.background": "transparent",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/.conda": true,
+    },
+    "python.useEnvironmentsExtension": true,
+    "qtForPython.qmlls.enabled": false,
+    "qtForPython.rcc.liveExecution.enabled": false
   },
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "PyRig",
-				"type": "debugpy",
-				"request": "launch",
-				"module": "pyrig",
-				"console": "integratedTerminal",
-				"justMyCode": false,
-				"args": [
-					"${workspaceFolder:pyrig}/.pyrig_config.jsonc"
-				],
-				"cwd": "${workspaceFolder:pyrig}"//,
-				// "guiEventLoop": "qt"
-				// "stopOnEntry": true
-			},
-			// {
-			// 	"name": "Python: @log_func_call script",
-			// 	"type": "debugpy",
-			// 	"request": "launch",
-			// 	"program": "${workspaceFolder:pyapp}/tools/add_log_func_call_decorators.py",
-			// 	"args": [
-			// 		// "${workspaceFolder:pyapp}/tools/log_func_call_exclude.jsonc"
-			// 		"${workspaceFolder:pyrig}/.log_func_call_exclude.jsonc"
-			// 	],
-			// 	"console": "integratedTerminal",
-			// 	"justMyCode": false
-			// },
-			{
-				"name": "PyRig: @log_func_call script",
-				"type": "debugpy",
-				"request": "launch",
-				"module": "pyapp",
-				"console": "integratedTerminal",
-				"justMyCode": false,
-				"args": [
-					"log_func_call",
-					"${workspaceFolder:pyrig}/.log_func_call_exclude.jsonc",
-				],
-				"cwd": "${workspaceFolder:pyapp}"//,
-				// "guiEventLoop": "qt"
-				// "stopOnEntry": true
-			},
-			{
-				"name": "PyApp: @log_func_call script",
-				"type": "debugpy",
-				"request": "launch",
-				"module": "pyapp",
-				"console": "integratedTerminal",
-				"justMyCode": false,
-				"args": [
-					"log_func_call",
-					"${workspaceFolder:pyapp}/pyapp/tools/.log_func_call_exclude.jsonc"
-				],
-				"cwd": "${workspaceFolder:pyapp}"//,
-				// "guiEventLoop": "qt"
-				// "stopOnEntry": true
-			},
-			{
-				"name": "PyApp: Icon Browser",
-				"type": "debugpy",
-				"request": "launch",
-				"module": "iconbrowser",
-				"console": "integratedTerminal",
-				"justMyCode": false,
-				"args": [
-					"${workspaceFolder:pyapp}/.pyapp_config.jsonc"
-				],
-				"cwd": "${workspaceFolder:pyapp}"//,
-				// "guiEventLoop": "qt"
-				// "stopOnEntry": true
-			},
-			{
-				"name": "Python: Current File",
-				"type": "debugpy",
-				"request": "launch",
-				"program": "${file}",
-				"console": "integratedTerminal",
-				"justMyCode": false
-			}
-		],
-		"compounds": []
-	}
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "PyRig",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "pyrig",
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "args": [
+          "${workspaceFolder:pyrig}/.pyrig_config.jsonc"
+        ],
+        "cwd": "${workspaceFolder:pyrig}"//,
+        // "guiEventLoop": "qt"
+        // "stopOnEntry": true
+      },
+      // {
+      // 	"name": "Python: @log_func_call script",
+      // 	"type": "debugpy",
+      // 	"request": "launch",
+      // 	"program": "${workspaceFolder:pyapp}/tools/add_log_func_call_decorators.py",
+      // 	"args": [
+      // 		// "${workspaceFolder:pyapp}/tools/log_func_call_exclude.jsonc"
+      // 		"${workspaceFolder:pyrig}/.log_func_call_exclude.jsonc"
+      // 	],
+      // 	"console": "integratedTerminal",
+      // 	"justMyCode": false
+      // },
+      {
+        "name": "PyRig: @log_func_call script",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "pyapp",
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "args": [
+          "log_func_call",
+          "${workspaceFolder:pyrig}/.log_func_call_exclude.jsonc",
+        ],
+        "cwd": "${workspaceFolder:pyapp}"//,
+        // "guiEventLoop": "qt"
+        // "stopOnEntry": true
+      },
+      {
+        "name": "PyApp: @log_func_call script",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "pyapp",
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "args": [
+          "log_func_call",
+          "${workspaceFolder:pyapp}/pyapp/tools/.log_func_call_exclude.jsonc"
+        ],
+        "cwd": "${workspaceFolder:pyapp}"//,
+        // "guiEventLoop": "qt"
+        // "stopOnEntry": true
+      },
+      {
+        "name": "Icon Browser",
+        "type": "debugpy",
+        "request": "launch",
+        "module": "iconbrowser",
+        "console": "integratedTerminal",
+        "justMyCode": false,
+        "args": [
+          "${workspaceFolder:iconbrowser}/.iconbrowser_config.jsonc"
+        ],
+        "cwd": "${workspaceFolder:iconbrowser}"//,
+        // "guiEventLoop": "qt"
+        // "stopOnEntry": true
+      },
+      {
+        "name": "Python: Current File",
+        "type": "debugpy",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal",
+        "justMyCode": false
+      }
+    ],
+    "compounds": []
+  }
 }

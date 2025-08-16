@@ -2,12 +2,12 @@ from PySide2.QtGui import QPixmap, QPainter
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtSvg import QSvgRenderer
 
-from pyapp.gui.abc import QtSplashScreen
+from pyapp.gui.splash import GuiSplashScreen
 
 from ..app import PyRigApp
 
 
-class SplashScreen(QtSplashScreen):
+class SplashScreen(GuiSplashScreen):
     def __init__(self):
         splash_path = PyRigApp.get_assets_dir()/'logo.svg'
         size = QSize(400, 400)

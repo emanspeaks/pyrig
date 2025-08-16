@@ -20,6 +20,7 @@ DriveList
 ENDBRAK
 expandvars
 filt
+fluentui
 fmtdict
 ified
 indata
@@ -42,6 +43,7 @@ pyscript
 pyside
 pywin
 qtbasewidget
+qtobj
 qtroot
 qtwin
 qtwindow
