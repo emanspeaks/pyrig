@@ -27,11 +27,184 @@ class TestPyRig(TestCase):
         self.assertEqual(round(235 / 2), 118)
         self.assertEqual(round(5, -1), 0)
 
-        from pyapp.utils.math import round_half_up
-        self.assertEqual(round_half_up(1300 / 8), 163)
-        self.assertEqual(round_half_up(325 / 2), 163)
-        self.assertEqual(round_half_up(235 / 2), 118)
-        self.assertEqual(round_half_up(5, -1), 10)
+        from pyapp.utils.math import round_half_away
+        self.assertEqual(round_half_away(1300 / 8), 163)
+        self.assertEqual(round_half_away(325 / 2), 163)
+        self.assertEqual(round_half_away(235 / 2), 118)
+        self.assertEqual(round_half_away(5, -1), 10)
+
+    def test_fixed4(self):
+        from pyrig.models.acctng.fixed4 import Fixed4
+        with self.assertRaises(TypeError):
+            Fixed4(1, 1000000)
+
+        fval1 = 123.456789
+        fval2 = 987.654321
+
+        f = Fixed4(fval1)
+        fdup = Fixed4(fval1)
+        fneg = Fixed4(-fval2)
+
+        self.assertEqual(f.intval, 1234568)
+        self.assertEqual(str(f), '123.4568')
+        self.assertEqual(f'{f}', '123.4568')
+        self.assertEqual(repr(f), "Fixed4(intval=1234568)")
+        self.assertEqual(f'{f!r}', "Fixed4(intval=1234568)")
+        self.assertEqual(float(f), 123.4568)
+        self.assertEqual(int(f), 123)
+        self.assertEqual(int(fneg), -988)
+        self.assertEqual(round(f, -2), 100)
+        self.assertEqual(round(f, -1), 120)
+        self.assertEqual(round(f, 1), 123.5)
+        self.assertEqual(round(f, 2), 123.46)
+        self.assertEqual(round(f, 3), 123.457)
+        self.assertEqual(round(f, 4), 123.4568)
+        with self.assertRaises(ValueError):
+            round(f, 5)
+
+        self.assertTrue(bool(f))
+        self.assertFalse(bool(Fixed4(0)))
+        self.assertFalse(bool(Fixed4()))
+
+        self.assertEqual(+f, f)
+        self.assertEqual(+fneg, fneg)
+
+        self.assertEqual(-f, Fixed4(-fval1))
+        self.assertEqual(-fneg, Fixed4(fval2))
+
+        self.assertEqual(f + fdup, Fixed4(fval1 + fval1))
+        self.assertEqual(f + fneg, Fixed4(fval1 - fval2))
+        self.assertEqual(f + 0, f)
+        self.assertEqual(f + 1, Fixed4(fval1 + 1))
+
+        self.assertEqual(f - fdup, Fixed4(0))
+        self.assertEqual(f - fdup, Fixed4())
+        self.assertEqual(f - fneg, Fixed4(fval1 + fval2))
+        self.assertEqual(f - 0, f)
+        self.assertEqual(f - 1, Fixed4(fval1 - 1))
+
+        self.assertEqual(f*2, Fixed4(fval1*2))
+        self.assertEqual(f*f, Fixed4(123.4568*123.4568))
+
+        self.assertEqual(f/2, Fixed4(fval1/2))
+        # self.assertEqual(f/fdup, Fixed4(1))
+        self.assertEqual(f/fdup, 1.0)
+        # self.assertAlmostEqual(float(f/fneg), -fval1/fval2)
+        self.assertAlmostEqual(f/fneg, -fval1/fval2)
+        # self.assertEqual(f/fneg, Fixed4(-fval1/fval2))
+        from pyapp.utils.math import round_half_away
+        self.assertEqual(f/fneg,
+                         -round_half_away(fval1, 4)/round_half_away(fval2, 4))
+
+        self.assertEqual(0 + f, f)
+        self.assertEqual(1 + f, Fixed4(fval1 + 1))
+
+        self.assertEqual(0 - f, -f)
+        self.assertEqual(0 - fneg, Fixed4(fval2))
+        self.assertEqual(1 - f, Fixed4(1 - fval1))
+
+        self.assertEqual(2*f, Fixed4(fval1*2))
+
+        self.assertEqual(1/f, Fixed4(1/fval1))
+
+        self.assertEqual(abs(f), f)
+        self.assertEqual(abs(fneg), Fixed4(fval2))
+
+        self.assertTrue(f == fdup)
+        self.assertFalse(f == fneg)
+        self.assertTrue(Fixed4() == 0)
+        self.assertTrue(0 == Fixed4())
+        self.assertFalse(f == fval1)
+        self.assertFalse(fval1 == f)
+
+        self.assertFalse(f != fdup)
+        self.assertTrue(f != fneg)
+        self.assertFalse(Fixed4() != 0)
+        self.assertFalse(0 != Fixed4())
+        self.assertTrue(f != fval1)
+        self.assertTrue(fval1 != f)
+
+        self.assertTrue(f > 0)
+        self.assertTrue(0 > fneg)
+        self.assertTrue(f > fneg)
+        self.assertFalse(fdup > f)
+        self.assertFalse(0 > f)
+        self.assertFalse(fneg > 0)
+        self.assertFalse(fneg > f)
+        with self.assertRaises(TypeError):
+            f > 1
+
+        with self.assertRaises(TypeError):
+            1 > f
+
+        self.assertTrue(f >= 0)
+        self.assertTrue(0 >= fneg)
+        self.assertTrue(f >= fneg)
+        self.assertTrue(fdup >= f)
+        self.assertFalse(0 >= f)
+        self.assertFalse(fneg >= 0)
+        self.assertFalse(fneg >= f)
+        with self.assertRaises(TypeError):
+            f >= 1
+
+        with self.assertRaises(TypeError):
+            1 >= f
+
+        self.assertFalse(f < 0)
+        self.assertFalse(0 < fneg)
+        self.assertFalse(f < fneg)
+        self.assertFalse(fdup < f)
+        self.assertTrue(0 < f)
+        self.assertTrue(fneg < 0)
+        self.assertTrue(fneg < f)
+        with self.assertRaises(TypeError):
+            f < 1
+
+        with self.assertRaises(TypeError):
+            1 < f
+
+        self.assertFalse(f <= 0)
+        self.assertFalse(0 <= fneg)
+        self.assertFalse(f <= fneg)
+        self.assertTrue(fdup <= f)
+        self.assertTrue(0 <= f)
+        self.assertTrue(fneg <= 0)
+        self.assertTrue(fneg <= f)
+        with self.assertRaises(TypeError):
+            f <= 1
+
+        with self.assertRaises(TypeError):
+            1 <= f
+
+        self.assertEqual(f // 100, 1)
+        self.assertEqual(fneg // 100, -10)
+        self.assertEqual(fneg // f, -8)
+
+        self.assertEqual(f % 100, Fixed4(23.4568))
+        self.assertEqual(fneg % 100, Fixed4(12.3457))
+        self.assertEqual(fneg % f, Fixed4(0.0001))
+        self.assertEqual(f % fneg, Fixed4(-864.1975))
+
+        self.assertEqual(divmod(f, 100), (1, Fixed4(23.4568)))
+        self.assertEqual(divmod(fneg, 100), (-10, Fixed4(12.3457)))
+        self.assertEqual(divmod(fneg, f), (-8, Fixed4(0.0001)))
+
+        self.assertEqual(1000 // f, 8)
+
+        self.assertEqual(1000 % f, 1000 % float(f))
+
+        self.assertEqual(divmod(1000, f), (8, 1000 % float(f)))
+
+        from math import floor, ceil, trunc
+
+        self.assertEqual(trunc(f), Fixed4(123))
+        self.assertEqual(trunc(fneg), Fixed4(-987))
+
+        self.assertEqual(floor(f), Fixed4(123))
+        self.assertEqual(floor(fneg), Fixed4(-988))
+
+        self.assertEqual(ceil(f), Fixed4(124))
+        self.assertEqual(ceil(fneg), Fixed4(-987))
 
     def test_money(self):
         from pyrig.models.acctng.money import Money
@@ -91,9 +264,9 @@ class TestPyRig(TestCase):
         self.assertEqual(m/2, Money(mval1/2))
         self.assertEqual(m/mdup, 1.0)
         self.assertAlmostEqual(m/mneg, -mval1/mval2)
-        from pyapp.utils.math import round_half_up
+        from pyapp.utils.math import round_half_away
         self.assertEqual(m/mneg,
-                         -round_half_up(mval1, 4)/round_half_up(mval2, 4))
+                         -round_half_away(mval1, 4)/round_half_away(mval2, 4))
 
         self.assertEqual(0 + m, m)
         with self.assertRaises(TypeError):
@@ -177,6 +350,36 @@ class TestPyRig(TestCase):
 
         with self.assertRaises(TypeError):
             1 <= m
+
+        self.assertEqual(m // 100, 1)
+        self.assertEqual(mneg // 100, -10)
+        self.assertEqual(mneg // m, -8)
+
+        self.assertEqual(m % 100, Money(23.4568))
+        self.assertEqual(mneg % 100, Money(12.3457))
+        self.assertEqual(mneg % m, Money(0.0001))
+        self.assertEqual(m % mneg, Money(-864.1975))
+
+        self.assertEqual(divmod(m, 100), (1, Money(23.4568)))
+        self.assertEqual(divmod(mneg, 100), (-10, Money(12.3457)))
+        self.assertEqual(divmod(mneg, m), (-8, Money(0.0001)))
+
+        self.assertEqual(1000 // m, 8)
+
+        self.assertEqual(1000 % m, 1000 % float(m))
+
+        self.assertEqual(divmod(1000, m), (8, 1000 % float(m)))
+
+        from math import floor, ceil, trunc
+
+        self.assertEqual(trunc(m), Money(123))
+        self.assertEqual(trunc(mneg), Money(-987))
+
+        self.assertEqual(floor(m), Money(123))
+        self.assertEqual(floor(mneg), Money(-988))
+
+        self.assertEqual(ceil(m), Money(124))
+        self.assertEqual(ceil(mneg), Money(-987))
 
 
 if __name__ == '__main__':

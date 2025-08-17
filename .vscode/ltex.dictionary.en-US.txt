@@ -20,9 +20,12 @@ drivelist
 DriveList
 ENDBRAK
 expandvars
+fdup
 filt
 fluentui
 fmtdict
+fneg
+fval
 ified
 indata
 inquote
