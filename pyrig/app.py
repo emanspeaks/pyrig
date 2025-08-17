@@ -15,6 +15,8 @@ class PyRigApp(PyApp):
         CFG_AVCAD_DB_KEY,
         CFG_AVCAD_LAYERS_KEY,
         "avcad_sharedlib",
+        "local.default_db_file",
+        "local.ynab_token_file",
     )
     APP_GLOBAL_DEFAULTS = {
         # "local_config_file": "~/.pyrig_local_config.jsonc",
@@ -25,6 +27,9 @@ class PyRigApp(PyApp):
     }
     APP_LOCAL_DEFAULTS = {
         # "delivery_config_dir": "${assets_dir}/delivery_config",
+        "default_db_file": "~/pyrig_data.db",
+        "ynab_token_file": "~/ynab_token.txt",
+        "ynab_token": None,
     }
     APP_ASSETS_DIR = "${package_dir}/assets"
 
@@ -40,6 +45,12 @@ class PyRigApp(PyApp):
         if '--print-models' in args:
             log.info("Printing all models from the database...")
             print_all_models()
+
+        from .models.db import check_pyrig_db
+        check_pyrig_db()
+
+        from .models.ynab import load_ynab_token
+        load_ynab_token()
 
         from .gui import PyRigGui
         gui = PyRigGui(args)

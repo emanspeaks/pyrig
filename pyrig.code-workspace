@@ -33,7 +33,8 @@
     "python.useEnvironmentsExtension": true,
     "qtForPython.qmlls.enabled": false,
     "qtForPython.rcc.liveExecution.enabled": false,
-    "python.terminal.useEnvFile": true
+    "python.terminal.useEnvFile": true,
+    "powershell.cwd": "pyrig"
   },
   "launch": {
     "version": "0.2.0",

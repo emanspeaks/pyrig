@@ -16,6 +16,9 @@ maintainers = [
 ]
 dependencies = [
   "pyapp",
+  "pandas",
+  "numpy",
+  "requests",
 ]
 
 [tool.hatch.build]
