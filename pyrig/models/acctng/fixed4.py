@@ -1,3 +1,6 @@
+from pandas import Series
+from numpy import divmod as npdivmod
+
 from pyapp.utils.math import round_half_away
 
 
@@ -6,14 +9,19 @@ class Fixed4:
     INTSCALAR = 10**DIGITS
     __slots__ = ('__intval',)
 
-    def __init__(self, value: 'float | int | str | Fixed4 | None' = None,
+    def __init__(self,
+                 value: 'float | int | str | Series | Fixed4 | None' = None,
                  intval: int | None = None):
         if value is not None and intval is not None:
             raise TypeError("Cannot specify both 'value' and 'intval'")
 
-        if value:
-            intval = (value.__intval if isinstance(value, Fixed4)
-                      else round_half_away(float(value)*self.INTSCALAR))
+        if value is not None:
+            if isinstance(value, Fixed4):
+                intval = value.__intval
+            else:
+                value = (value.astype(float) if isinstance(value, Series)
+                         else float(value))
+                intval = round_half_away(value*self.INTSCALAR)
 
         self.__intval = intval or 0
 
@@ -22,13 +30,16 @@ class Fixed4:
         return self.__intval
 
     def __repr__(self):
-        return f"Fixed4(intval={self.__intval})"
+        return f"Fixed4(intval={self.__intval!r})"
 
     def __str__(self):
+        if isinstance(self.__intval, Series):
+            return repr(self)
+
         return f"{float(self):.4f}"
 
     def __bool__(self):
-        return bool(self.__intval)
+        return self.__intval != 0
 
     def __round__(self, n: int = 0):
         """
@@ -40,9 +51,10 @@ class Fixed4:
         expo = self.DIGITS - (n or 0)
         out = round_half_away(intval, -expo)/self.INTSCALAR
         if n <= 0:
-            return int(out)
+            return out.astype(int) if isinstance(out, Series) else int(out)
         elif n > self.DIGITS:
-            raise ValueError("Cannot round to more than 4 decimal places")
+            raise ValueError(f"Cannot round to more than {self.DIGITS} "
+                             "decimal places")
         return out
 
     def __float__(self):
@@ -66,7 +78,7 @@ class Fixed4:
         Fixed4 instance first and then operate on the floats.  Otherwise, we
         assume you want to continue working in fixed precision.
         """
-        if other == 0:
+        if isinstance(other, (int, float)) and other == 0:
             return self
         if not isinstance(other, Fixed4):
             return self + self.__class__(other)
@@ -88,10 +100,12 @@ class Fixed4:
         Fixed4 instance first and then operate on the floats.  Otherwise, we
         assume you want to continue working in fixed precision.
         """
-        if other == 0:
-            return self.__class__()
-        if other == 1:
-            return self
+        if isinstance(other, (int, float)):
+            if other == 0:
+                return self.__class__()
+            if other == 1:
+                return self
+
         if not isinstance(other, Fixed4):
             return self.__class__(intval=round_half_away(self.__intval*other))
         if not type(other) is Fixed4:
@@ -112,7 +126,7 @@ class Fixed4:
         The exception is if you divide two Fixed4 instances, which will return
         a float.
         """
-        if other == 1:
+        if isinstance(other, (int, float)) and other == 1:
             return self
         if not isinstance(other, Fixed4):
             return self.__class__(intval=round_half_away(self.__intval/other))
@@ -139,14 +153,14 @@ class Fixed4:
         return other == 0 and not self.__intval
 
     def __lt__(self, other):
-        if other == 0:
+        if isinstance(other, (int, float)) and other == 0:
             return self.__intval < 0
         if not isinstance(other, Fixed4):
             raise TypeError('Cannot compare Fixed4 to non-Fixed4')
         return self.__intval < other.__intval
 
     def __gt__(self, other):
-        if other == 0:
+        if isinstance(other, (int, float)) and other == 0:
             return self.__intval > 0
         if not isinstance(other, Fixed4):
             raise TypeError('Cannot compare Fixed4 to non-Fixed4')
@@ -195,7 +209,7 @@ class Fixed4:
         # return quo + (rem > 0)
         intval = self.__intval
         scl = self.INTSCALAR
-        quo, rem = divmod(intval, scl)
+        quo, rem = npdivmod(intval, scl)
         return self.__class__(intval=(quo + (rem > 0))*scl)
 
     # these should really be handled as floats to reduce complexity here since
